@@ -21,5 +21,14 @@ def criar_user():
 
         
 def verificar_user():
-    pass
+    users = carregar(tipo="cliente", obj=cliente)
+
+    for i in users:
+        if i.nome == nome and i.verificador_password(password):
+            print("Login bem sucedido")
+            return i
+
+    print("Login falhado")
+    return False
+
 
