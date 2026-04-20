@@ -9,6 +9,12 @@ class Cliente():
         else:
             self.marcacoes = marcacoes
 
+    def para_dicionario(self):
+        return {
+            "nome": self.nome,
+            "password": self.password,
+            "marcacoes": self.marcacoes
+        }
     
     @property
     def nome(self):
@@ -48,3 +54,4 @@ class Cliente():
 
     def editar_marcacao():
         pass
+    
