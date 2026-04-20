@@ -40,11 +40,11 @@ class Cliente():
         else:
             return False
 
-    def adicionar_marcacao():
-        pass
+    def adicionar_marcacao(self, marcacao):
+        self.marcacoes.append(marcacao)
 
-    def eliminar_marcacao():
-        pass
+    def eliminar_marcacao(self, marcacao):
+        self.marcacoes.pop(marcacao)
 
     def editar_marcacao():
         pass
