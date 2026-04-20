@@ -22,3 +22,19 @@ def guardar_dados(lista: list, caminho: str): # Recebe a lista por argumento
             json.dump(dados_para_salvar, f, indent=4)
     except Exception as e:
         print(f"\n[Erro ao guardar: {e}]")
+
+def carregar_save(ficheiro: str, obj: object):
+    """Carrega os clientes e reconverte-os em objetos Cliente."""
+
+    if ficheiro == "cliente":
+        ficheiro = FICHEIRO_CLIENTE
+    elif ficheiro == "estabelecimento":
+        ficheiro = FICHEIRO_ESTABELECIMENTO
+
+    if os.path.exists(ficheiro):
+        with open(ficheiro, "r", encoding="utf-8") as f:
+            dados = json.load(f)
+            return [obj(**item) for item in dados] # 'nome': "Raul" --> nome="Raul"
+    return []
+
+
