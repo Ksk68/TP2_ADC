@@ -1,6 +1,6 @@
 class Cliente():
 
-    def __init__(self, nome: str, password, marcacoes: list=None):
+    def __init__(self, nome: str, password: str, marcacoes: list=None):
         self.nome = nome
         self.password = password
 
@@ -12,19 +12,27 @@ class Cliente():
     
     @property
     def nome(self):
-        pass
+        return self.__nome
     
     @nome.setter
     def nome(self, nome):
-        pass
+        if 3 <= nome.strip() <= 20:
+            self.__nome = nome.title().strip()
+        else:
+            print("O nome tem que ter no mínimo 3 caracteres e no maximo 20.")
+
 
     @property
     def password(self):
-        pass  
-      
+        return self.__password
+
     @password.setter
     def password(self, password):
-        pass
+        if password.replace(" ", "") >= 8:  #Não permite espaços
+            self.__password = password
+
+        else:
+            print("A password tem que ter no mínimo 8 caracteres.")
 
     def verificador_password():
         pass
