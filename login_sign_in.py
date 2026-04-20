@@ -1,6 +1,7 @@
-# from cliente import Cliente
+from cliente import Cliente
+from save_load import guardar_dados, carregar_save 
 
-def criar_user():
+def criar_user(lista_clientes: list):
     while True:
         print("LOGIN")
         nome = input("Nome: ").title().strip()
@@ -15,13 +16,13 @@ def criar_user():
             print("Nome tem de ser entre 8-25 caracteres")
             continue
         
-        # novo_user = Cliente(nome=nome, password=password)
-        # guardar(tipo="cliente", novo_user)
-        
+        novo_user = Cliente(nome=nome, password=password)
+        lista_clientes.append(novo_user)
+        guardar_dados(tipo="cliente", obj=lista_clientes)
 
         
-def verificar_user():
-    users = carregar(tipo="cliente", obj=cliente)
+def verificar_user(nome: str, password: str):
+    users = carregar_save(tipo="cliente", obj=Cliente)
 
     for i in users:
         if i.nome == nome and i.verificador_password(password):
