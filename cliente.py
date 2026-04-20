@@ -34,8 +34,11 @@ class Cliente():
         else:
             print("A password tem que ter no mínimo 8 caracteres.")
 
-    def verificador_password():
-        pass
+    def verificador_password(self, password):
+        if self.password == password:
+            return True
+        else:
+            return False
 
     def adicionar_marcacao():
         pass
