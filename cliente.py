@@ -22,7 +22,7 @@ class Cliente():
     
     @nome.setter
     def nome(self, nome):
-        if 3 <= nome.strip() <= 20:
+        if 3 <= len(nome.strip()) <= 20:
             self.__nome = nome.title().strip()
         else:
             print("O nome tem que ter no mínimo 3 caracteres e no maximo 20.")
@@ -34,7 +34,7 @@ class Cliente():
 
     @password.setter
     def password(self, password):
-        if password.replace(" ", "") >= 8:  #Não permite espaços
+        if len(password.replace(" ", "")) >= 8:  #Não permite espaços
             self.__password = password
 
         else:
