@@ -23,12 +23,12 @@ def guardar_dados(lista: list, caminho: str): # Recebe a lista por argumento
     except Exception as e:
         print(f"\n[Erro ao guardar: {e}]")
 
-def carregar_save(ficheiro: str, obj: object):
+def carregar_save(caminho: str, obj: object):
     """Carrega os clientes e reconverte-os em objetos Cliente."""
 
-    if ficheiro == "cliente":
+    if caminho == "cliente":
         ficheiro = FICHEIRO_CLIENTE
-    elif ficheiro == "estabelecimento":
+    elif caminho == "estabelecimento":
         ficheiro = FICHEIRO_ESTABELECIMENTO
 
     if os.path.exists(ficheiro):
