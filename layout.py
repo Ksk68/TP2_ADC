@@ -3,6 +3,7 @@ import os
 
 # Erros default
 ERRO_NUMERO = "Caracter invalido porfavor insira numeros"
+ERRO_FLOAT = "Insira um número decimal (ex: 10.50)"
 
 TITULO = 'D A S H'
 
@@ -56,3 +57,68 @@ def limpar() -> None:
         Limpa a comand line
     """
     os.system('cls' if os.name == 'nt' else 'clear')
+
+
+
+
+
+def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None, tamanho: int = 76, titulo: str = "P E R G U N T A S"):
+    """
+    perguntas_config: Lista de listas no formato [["Pergunta", min, max], ...]
+    tipo: Tipo de variável (str, int, float).
+    exclusoes: Lista de valores que não são permitidos.
+    tamanho: Largura do layout.
+    titulo: Título do layout.
+    """
+    exclusoes = exclusoes or []
+
+    linha = "━" * tamanho
+    print(f"{linha}\n{titulo:^{tamanho}}\n{linha}")
+
+    respostas_finais = []
+
+    for item in perguntas_config:
+
+        texto_pergunta = item[0]
+        if len(item) > 1:
+            min_v = item[1]
+            if len(item) > 2:
+                max_v = item[2]
+            else:
+                max_v = None
+        else:
+            min_v = None
+            max_v = None
+
+        while True:
+            try:
+                res = input(f"{texto_pergunta}: ").strip()
+
+                if not res:
+                    print("Erro: A entrada não pode estar vazia.")
+                    continue
+
+                valor_convertido = tipo(res)
+
+                if valor_convertido in exclusoes:
+                    print(f"Erro: O valor '{valor_convertido}' não é permitido.")
+                    continue
+
+                # Lógica de validação de limites
+                dado = len(res) if tipo is str else valor_convertido
+                termo = "caracteres" if tipo is str else "valor"
+
+                if min_v is not None and dado < min_v:
+                    print(f"Erro: Mínimo de {min_v} {termo}.")
+                    continue
+                if max_v is not None and dado > max_v:
+                    print(f"Erro: Máximo de {max_v} {termo}.")
+                    continue
+
+                respostas_finais.append(valor_convertido)
+                break # Sai do while e vai para a próxima pergunta do for
+
+            except ValueError:
+                print(f"Erro: Entrada inválida. Esperado {tipo.__name__}.")
+
+    return respostas_finais
