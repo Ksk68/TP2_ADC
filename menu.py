@@ -1,11 +1,12 @@
+from time import sleep
 from cliente import Cliente
 from layout import criar_menu, limpar, perguntar
 from login_sign_in import criar_user, verificar_user
 from save_load import carregar_save
 
-ENTER = "\nPressione ENTER para continuar..."
+ENTER = "   \nPressione ENTER para continuar..."
 
-
+cliente_logado = None
 lista_clientes = carregar_save(caminho="cliente", obj=Cliente)
 
 def menu():
@@ -34,29 +35,43 @@ def menu():
             print("Opção inválida, tente novamente.")
 
 def menu_login():
-    limpar()
+    global cliente_logado
+    while True:
+        limpar()
 
-    config = [
-        ["  Nome", 3, 20],             # Min 3, Max 20 caracteres
-        ["  Password", 8, 20],         # Min 8, Max 20 (valor)
-    ]
+        config = [
+            ["  Nome", 3, 20],             # Min 3, Max 20 caracteres
+            ["  Password", 8, 20],         # Min 8, Max 20 (valor)
+        ]
 
-    resultados = perguntar(config, tipo=str, titulo="L O G I N")
+        resultados = perguntar(config, tipo=str, titulo="L O G I N")
 
-    verificar_user(resultados[0], resultados[1])
-    input(ENTER)
+        resposta = verificar_user(resultados[0], resultados[1])
+
+        if resposta is object:
+            cliente_logado = resposta
+            print("Login bem sucedido!")
+            sleep(1.5) 
+            break
+        input(ENTER)
 
 def menu_criar_conta():
-    limpar()
-    
-    config = [
-        ["  Nome", 3, 20],             # Min 3, Max 20 caracteres
-        ["  Password", 8, 20],         # Min 8, Max 20 (valor)
-    ]
+    while True:
+        limpar()
+        config = [
+            ["  Nome", 3, 20],             # Min 3, Max 20 caracteres
+            ["  Password", 8, 20],         # Min 8, Max 20 (valor)
+        ]
 
-    resultados = perguntar(config, tipo=str, titulo="S I G N  -  I N")
+        resultados = perguntar(config, tipo=str, titulo="S I G N  -  I N")
 
-    criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1])
+        resultado = criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1])
+        
+        if resultado:
+            print(" Conta criada com sucesso!")
+            sleep(1.5)  
+            break
+        input(ENTER)
 
 if __name__ == "__main__":
     menu()
