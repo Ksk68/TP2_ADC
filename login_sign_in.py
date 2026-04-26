@@ -1,9 +1,9 @@
 from cliente import Cliente
 from save_load import guardar_dados 
 
-def criar_user(lista_clientes: list, nome: str, password: str):
-    novo_user = Cliente(nome=nome, password=password)
-    
+def criar_user(lista_clientes: list, nome: str, password: str, morada: str=None, telefone: str=None):
+    novo_user = Cliente(nome=nome, password=password, morada=morada, telefone=telefone)
+
     for cliente in lista_clientes:
         if cliente.nome == novo_user.nome:
             print(" Já existe um usuário com esse nome. Tente outro nome.")

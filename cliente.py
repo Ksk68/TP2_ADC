@@ -1,8 +1,10 @@
 class Cliente():
 
-    def __init__(self, nome: str, password: str, marcacoes: list=None):
+    def __init__(self, nome: str, password: str, marcacoes: list=None, morada: str=None, telefone: str=None):
         self.nome = nome
         self.password = password
+        self.morada = morada
+        self.telefone = telefone
 
         if marcacoes is None:
             self.marcacoes = []
@@ -13,7 +15,9 @@ class Cliente():
         return {
             "nome": self.nome,
             "password": self.password,
-            "marcacoes": self.marcacoes
+            "marcacoes": self.marcacoes,
+            "morada": self.morada,
+            "telefone": self.telefone
         }
     
     @property
@@ -45,6 +49,31 @@ class Cliente():
             return True
         else:
             return False
+        
+    @property
+    def morada(self):
+        return self.__morada
+    
+    @morada.setter
+    def morada(self, valor):
+        valor = valor.strip()
+        if 5 <= len(valor) <= 100:
+            self.__morada = valor
+        else:
+            print("Morada tem que ter entre 5 a 100 caracteres.")
+
+    @property
+    def telefone(self):
+        return self.__telefone
+    
+    @telefone.setter
+    def telefone(self, valor):
+        valor.replace(" ","") 
+        if len(valor) == 9:
+            self.__telefone = valor
+        else:
+            print("Insira um número de telemóvel com 9 caracteres.")
+
 
     def adicionar_marcacao(self, marcacao):
         self.marcacoes.append(marcacao)

@@ -75,11 +75,13 @@ def menu_criar_conta():
         config = [
             ["  Nome", 3, 20],             # Min 3, Max 20 caracteres
             ["  Password", 8, 20],         # Min 8, Max 20 (valor)
+            ["  Morada", 5, 100],           # Min 5, Max 100 caracteres
+            ["  Telefone", 9, 9]            # Min 9, Max 9 caracteres
         ]
 
         resultados = perguntar(config, tipo=str, titulo="S I G N  -  I N")
 
-        resultado = criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1])
+        resultado = criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1], morada=resultados[2], telefone=resultados[3])
         
         if resultado:
             print(" Conta criada com sucesso!")
@@ -170,12 +172,16 @@ def menu_cliente(): # user profile
         if res == 1:
             menu_profile()
         elif res == 2:
-            res = perguntar([["  Novo nome", 3, 20], ["  Nova password", 8, 20]], tipo=str, titulo="E D I T A R  P R O F I L E", vazio=True)
+            res = perguntar([["  Novo nome", 3, 20], ["  Nova password", 8, 20], ["  Nova morada", 5, 100], ["  Novo telefone", 9, 9]], tipo=str, titulo="E D I T A R  P R O F I L E", vazio=True)
             if res[0]:
                 cliente_logado.nome = res[0]
             if res[1]:
                 cliente_logado.password = res[1]
-            
+            if res[2]:
+                cliente_logado.morada = res[2]
+            if res[3]:
+                cliente_logado.telefone = res[3]
+
             guardar_dados(caminho="cliente", lista=lista_clientes)
             print("Perfil atualizado com sucesso!")
             input(ENTER)
@@ -230,6 +236,8 @@ def menu_adicionar_estabelecimento(): # para criar um estabelimento
 def menu_profile():
     texto = f"""
     NOME: {cliente_logado.nome}
+    MORADA: {cliente_logado.morada}
+    TELEFONE: {cliente_logado.telefone}
     """
     mostra_info(texto)
     input(ENTER_VOLTAR)
