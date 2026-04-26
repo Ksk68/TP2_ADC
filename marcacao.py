@@ -1,5 +1,5 @@
 from estabelecimento import Estabelecimento
-
+import re
 
 class Marcacao():
 
@@ -42,3 +42,32 @@ class Marcacao():
             self.__quantidade_pessoas = value
         else:
             raise ValueError("A quantidade de pessoas deve ser um número inteiro entre 1 e 15.")
+        
+
+    @property
+    def hora_marcacao(self):
+        return self.__hora_marcacao 
+    
+    @hora_marcacao.setter
+    def hora_marcacao(self, value):
+        # Verificar se a hora está no formato HH:MM
+        if not re.match(r'^\d{2}:\d{2}$', value):
+            raise ValueError("A hora da marcação deve estar no formato HH:MM.")
+        
+        value_hora, value_minuto = map(int, value.split(':'))
+        if not (0 <= value_hora < 24 and 0 <= value_minuto < 60):
+            raise ValueError("A hora deve ser válida (00:00 a 23:59).")
+        
+        if self.estabelecimento_horario:
+            abertura, fechamento = self.estabelecimento_horario.split('-')
+            abertura_hora, abertura_minuto = map(int, abertura.split(':'))
+            fechamento_hora, fechamento_minuto = map(int, fechamento.split(':'))
+            
+            hora_atual = value_hora * 60 + value_minuto
+            hora_abertura = abertura_hora * 60 + abertura_minuto
+            hora_fechamento = fechamento_hora * 60 + fechamento_minuto
+            
+            if not (hora_abertura <= hora_atual <= hora_fechamento):
+                raise ValueError("A hora deve estar dentro do horário de funcionamento.")
+        
+        self.__hora_marcacao = value
