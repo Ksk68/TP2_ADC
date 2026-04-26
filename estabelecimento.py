@@ -8,6 +8,13 @@ class Estabelecimento():
         self.telefone = telefone
         self.horario_funcionamento = horario_funcionamento # ex: "09:00-18:00"
 
+    def para_dicionario(self):
+        return {
+            "nome": self.nome,
+            "morada": self.morada,
+            "telefone": self.telefone,
+            "horario_funcionamento": self.horario_funcionamento
+        }
 
     @property
     def nome(self):

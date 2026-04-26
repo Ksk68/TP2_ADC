@@ -98,7 +98,7 @@ def menu_app():
 
             print()
             if lista_estabelecimentos:
-                for est in range(1, len(lista_estabelecimentos), 4):
+                for est in range(0, len(lista_estabelecimentos), 4):
                     publicidade(lista_estabelecimentos[est:est+4]) 
                     i = randint(0, 3)
 
@@ -189,7 +189,23 @@ def menu_estabelecimento(): # para ver o estabelecimento e poder fazer a marcaç
     pass
 
 def menu_adicionar_estabelecimento(): # para criar um estabelimento
-    pass
+    while True:
+        try:
+            limpar()
+            res = perguntar([["  Nome do estabelecimento", 3, 50],
+                ["  Morada", 3, 30], 
+                ["  Telefone", 9, 9],
+                ["  Horário de funcionamento (HH:MM-HH:MM)", 11, 11]],              
+                    tipo=str, titulo="A D I C I O N A R  E S T A B E L E C I M E N T O")
+        
+            lista_estabelecimentos.append(Estabelecimento(nome=res[0], morada=res[1], telefone=res[2], horario_funcionamento=res[3]))
+            guardar_dados(caminho="estabelecimento", lista=lista_estabelecimentos)
+            print("Estabelecimento adicionado com sucesso!")
+            input(ENTER)
+            break
+        except ValueError as e:
+            print(f"Erro: {e}")
+            input(ENTER)
 
 def menu_profile():
     texto = f"""
