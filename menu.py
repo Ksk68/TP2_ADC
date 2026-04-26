@@ -143,7 +143,43 @@ def menu_app():
             print("Opção inválida, tente novamente.")
 
 def menu_cliente(): # user profile
-    pass
+    global mostrar_menu
+    while True:
+        limpar()
+        config = [
+            {
+                "sub": "P R O F I L E",
+                "opcoes": [
+                    "Ver perfil",
+                    "Editar perfil",
+                ],
+            },
+            {
+                "sub": "M A R C A Ç Ã O",
+                "opcoes": [
+                    "Ver marcações"
+                ],
+            }
+        ]
+        
+        res = criar_menu(menu_config=config)
+
+        if res == 1:
+            menu_profile()
+        elif res == 2:
+            res = perguntar([["  Novo nome", 3, 20], ["  Nova password", 8, 20]], tipo=str, titulo="E D I T A R  P R O F I L E")
+            if res[0]:
+                cliente_logado.nome = res[0]
+            if res[1]:
+                cliente_logado.password = res[1]
+            print("Perfil atualizado com sucesso!")
+        elif res == 3:
+            pass # Ver marcações
+        elif res == 0:
+            mostrar_menu = 0
+            break
+        else:
+            print("Opção inválida, tente novamente.")
 
 def menu_estabelecimento(): # para ver o estabelecimento e poder fazer a marcação
     pass
@@ -151,6 +187,12 @@ def menu_estabelecimento(): # para ver o estabelecimento e poder fazer a marcaç
 def menu_adicionar_estabelecimento(): # para criar um estabelimento
     pass
 
+def menu_profile():
+    texto = f"""
+    NOME: {cliente_logado.nome}
+    """
+    mostra_info(texto)
+    input(ENTER_VOLTAR)
 
 if __name__ == "__main__":
     menu()
