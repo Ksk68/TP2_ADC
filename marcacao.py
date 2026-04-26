@@ -32,3 +32,13 @@ class Marcacao():
         else:
             raise ValueError("O estabelecimento deve ser um objeto do tipo Estabelecimento.")   
     
+    @property
+    def quantidade_pessoas(self):
+        return self.__quantidade_pessoas
+    
+    @quantidade_pessoas.setter
+    def quantidade_pessoas(self, value):
+        if isinstance(value, int) and 1 <= value <= 15:
+            self.__quantidade_pessoas = value
+        else:
+            raise ValueError("A quantidade de pessoas deve ser um número inteiro entre 1 e 15.")
