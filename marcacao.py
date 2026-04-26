@@ -1,3 +1,6 @@
+from estabelecimento import Estabelecimento
+
+
 class Marcacao():
 
     def __init__(self, estabeleciemento: object, hora_marcacao: str, quantidade_pessoas: int):
@@ -18,4 +21,14 @@ class Marcacao():
             "quantidade_pessoas": self.quantidade_pessoas
         }
 
-      
+    @property
+    def estabelecimento(self):
+        return self.__estabelecimento
+    
+    @estabelecimento.setter
+    def estabelecimento(self, valor):   
+        if isinstance(valor, Estabelecimento):
+            self.__estabelecimento = valor.nome
+        else:
+            raise ValueError("O estabelecimento deve ser um objeto do tipo Estabelecimento.")   
+    
