@@ -4,7 +4,7 @@ from estabelecimento import Estabelecimento
 from time import sleep
 from random import randint
 
-from layout import criar_menu, limpar, mostra_info, perguntar, publicidade, titulo
+from layout import criar_menu, limpar, mostra_info, perguntar, publicidade, titulo, lista_opcoes
 
 from login_sign_in import criar_user, verificar_user
 
@@ -63,7 +63,7 @@ def menu_login():
         if resposta:
             cliente_logado = obj
             print("Login bem sucedido!")
-            sleep(1.5) 
+            sleep(1) 
             menu_app()
             break
         print(resposta)
@@ -89,12 +89,13 @@ def menu_criar_conta():
         input(ENTER)
 
 def menu_app():
-    global mostrar_menu
+    global mostrar_menu, lista_opcoes
+    
     while True:
         if mostrar_menu == 0:
             limpar()
             print(titulo("D A S H"))
-            print(titulo("1 - Cliente | 2 - Estabelecimento | 3 - Adicionar Estabelecimento | 0 - Sair", sem_linha=True))
+            print(titulo("1 - Cliente | 2 - Adicionar Estabelecimento | 0 - Sair", sem_linha=True))
 
             print()
             if lista_estabelecimentos:
@@ -129,19 +130,20 @@ def menu_app():
 
         
         mostrar_menu = 1
-        res = perguntar([["  Escolha uma opção", 0, 3]], tipo=int, titulo="D A S H")
+        res = perguntar([["  Escolha uma opção"]], tipo=int, titulo="D A S H")
 
         if res[0] == 1:
             menu_cliente()
         elif res[0] == 2:
-            menu_estabelecimento()
-        elif res[0] == 3:
             menu_adicionar_estabelecimento()
         elif res[0] == 0:
             print("Saindo...")
             break
         else:
-            print("Opção inválida, tente novamente.")
+            if res[0] in lista_opcoes:
+                menu_estabelecimento(lista_estabelecimentos[res[0] - 4])
+            else:
+                print("Opção inválida, tente novamente.")
 
 def menu_cliente(): # user profile
     global mostrar_menu
@@ -178,15 +180,33 @@ def menu_cliente(): # user profile
             print("Perfil atualizado com sucesso!")
             input(ENTER)
         elif res == 3:
-            pass # Ver marcações
+            menu_marcacoes()
         elif res == 0:
             mostrar_menu = 0
             break
         else:
             print("Opção inválida, tente novamente.")
 
-def menu_estabelecimento(): # para ver o estabelecimento e poder fazer a marcação
-    pass
+def menu_estabelecimento(estabelecimento: object): # para ver o estabelecimento e poder fazer a marcação
+    global mostrar_menu
+
+    texto = f"""
+    NOME: {estabelecimento.nome}
+    MORADA: {estabelecimento.morada}
+    TELEFONE: {estabelecimento.telefone}
+    HORÁRIO DE FUNCIONAMENTO: {estabelecimento.horario_funcionamento}
+    """
+    mostra_info(texto)
+
+    res = input("Deseja fazer uma marcação? (s/n): ").strip().lower()
+    if res == 's':
+        print("Funcionalidade ainda não implementada.")
+        input(ENTER)
+    else:
+        print("Voltando ao menu...")
+        sleep(1)
+
+    mostrar_menu = 0
 
 def menu_adicionar_estabelecimento(): # para criar um estabelimento
     while True:
@@ -213,6 +233,9 @@ def menu_profile():
     """
     mostra_info(texto)
     input(ENTER_VOLTAR)
+
+def menu_marcacoes():
+    pass
 
 if __name__ == "__main__":
     menu()

@@ -7,6 +7,7 @@ ERRO_FLOAT = "Insira um número decimal (ex: 10.50)"
 
 TITULO = 'D A S H'
 num_opcao = 3
+lista_opcoes = []
 
 def criar_menu(menu_config: list, tamanho: int=76, sem_num: bool=False) -> int:
     while True:
@@ -137,7 +138,7 @@ def titulo(texto: str, tamanho: int=76, sem_linha: bool=False, tipo_linha: str="
         return f"{linha}\n{texto:^{tamanho}}\n{linha}"
 
 def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 76) -> None:
-    global num_opcao
+    global num_opcao, lista_opcoes
     """
     Exibe quadrados centrados no ecrã, mas com texto interno alinhado à esquerda.
     """
@@ -184,8 +185,9 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
         print(f"{l_telefone:^{tamanho}}")
         print(f"{l_base:^{tamanho}}")
         print() 
-
+        lista_opcoes.append(num_opcao)
         num_opcao += 1
+
 
 
 def mostra_info(texto: str, tamanho: int=46):
