@@ -42,7 +42,7 @@ class Estabelecimento():
     
     @telefone.setter
     def telefone(self, valor):
-        valor.replace(" ","") # remove todos os espaços
+        valor = valor.replace(" ","") # remove todos os espaços
         if len(valor) == 9:
             self.__telefone = valor
         else:
