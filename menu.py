@@ -48,7 +48,7 @@ def menu():
             print("Opção inválida, tente novamente.")
 
 def menu_login():
-    global cliente_logado
+    global cliente_logado, lista_clientes
     while True:
         limpar()
 
@@ -67,7 +67,7 @@ def menu_login():
             sleep(1) 
             menu_app()
             break
-        print(resposta)
+        print(obj)
         input(ENTER)
 
 def menu_criar_conta():
@@ -82,7 +82,7 @@ def menu_criar_conta():
 
         resultados = perguntar(config, tipo=str, titulo="S I G N  -  I N")
 
-        resultado = criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1], morada=resultados[2], telefone=resultados[3])
+        resultado, cliente_logado = criar_user(lista_clientes=lista_clientes, nome=resultados[0], password=resultados[1], morada=resultados[2], telefone=resultados[3])
         
         if resultado:
             print(" Conta criada com sucesso!")
@@ -216,6 +216,7 @@ def menu_estabelecimento(estabelecimento: object): # para ver o estabelecimento 
     mostrar_menu = 0
 
 def menu_adicionar_estabelecimento(): # para criar um estabelimento
+    global mostrar_menu, lista_estabelecimentos
     while True:
         try:
             limpar()
@@ -229,6 +230,7 @@ def menu_adicionar_estabelecimento(): # para criar um estabelimento
             guardar_dados(caminho="estabelecimento", lista=lista_estabelecimentos)
             print("Estabelecimento adicionado com sucesso!")
             input(ENTER)
+            mostrar_menu = 0
             break
         except ValueError as e:
             print(f"Erro: {e}")
@@ -244,6 +246,7 @@ def menu_profile():
     input(ENTER_VOLTAR)
 
 def menu_marcacoes():
+    global cliente_logado
     while True:
         if cliente_logado.marcacoes:
             texto = ""
@@ -275,7 +278,9 @@ def menu_marcacoes():
                 print("Opção inválida, voltando ao menu...")
                 sleep(1)
         else:
-            print("Não tem marcações feitas.") 
+            mostra_info("Não tem marcações no momento.")
+            input(ENTER_VOLTAR)
+            break
 
 def criar_marcacao(estabelecimento: object): 
     global cliente_logado, lista_clientes

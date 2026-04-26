@@ -13,7 +13,7 @@ def criar_user(lista_clientes: list, nome: str, password: str, morada: str=None,
     
     guardar_dados(caminho="cliente", lista=lista_clientes)
 
-    return True
+    return True, novo_user
 
 
 def verificar_user(nome: str, password: str, lista_clientes: list):
@@ -23,6 +23,6 @@ def verificar_user(nome: str, password: str, lista_clientes: list):
         if i.nome == nome_procurado and i.verificador_password(password):
             return True, i
 
-    return "Login falhado: Nome ou Password incorretos", None
+    return False, "  Usuário ou senha incorretos."
 
 
