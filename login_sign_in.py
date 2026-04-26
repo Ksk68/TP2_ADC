@@ -1,9 +1,9 @@
 from cliente import Cliente
-from save_load import guardar_dados, carregar_save 
+from save_load import guardar_dados 
 
-def criar_user(lista_clientes: list, nome: str, password: str):
-    novo_user = Cliente(nome=nome, password=password)
-    
+def criar_user(lista_clientes: list, nome: str, password: str, morada: str=None, telefone: str=None):
+    novo_user = Cliente(nome=nome, password=password, morada=morada, telefone=telefone)
+
     for cliente in lista_clientes:
         if cliente.nome == novo_user.nome:
             print(" Já existe um usuário com esse nome. Tente outro nome.")
@@ -13,17 +13,16 @@ def criar_user(lista_clientes: list, nome: str, password: str):
     
     guardar_dados(caminho="cliente", lista=lista_clientes)
 
-    return True
+    return True, novo_user
 
-        
-def verificar_user(nome: str, password: str):
-    users = carregar_save(caminho="cliente", obj=Cliente)
 
-    for i in users:
-        if i.nome == nome.strip().title() and i.verificador_password(password):
-            return i
+def verificar_user(nome: str, password: str, lista_clientes: list):
+    nome_procurado = nome.strip().title()
 
-    print("Login falhado")
-    return False
+    for i in lista_clientes:
+        if i.nome == nome_procurado and i.verificador_password(password):
+            return True, i
+
+    return False, "  Usuário ou senha incorretos."
 
 

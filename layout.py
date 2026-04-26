@@ -7,6 +7,7 @@ ERRO_FLOAT = "Insira um número decimal (ex: 10.50)"
 
 TITULO = 'D A S H'
 num_opcao = 3
+lista_opcoes = []
 
 def criar_menu(menu_config: list, tamanho: int=76, sem_num: bool=False) -> int:
     while True:
@@ -58,7 +59,7 @@ def limpar() -> None:
     """
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None, tamanho: int = 76, titulo: str = "P E R G U N T A S"):
+def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None, tamanho: int = 76, titulo: str = "P E R G U N T A S", vazio: bool = False) -> list:
     """
     perguntas_config: Lista de listas no formato [["Pergunta", min, max], ...]
     tipo: Tipo de variável (str, int, float).
@@ -91,6 +92,9 @@ def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None
                 res = input(f"{texto_pergunta}: ").strip()
 
                 if not res:
+                    if vazio:
+                        respostas_finais.append("")
+                        break
                     print("Erro: A entrada não pode estar vazia.")
                     continue
 
@@ -134,7 +138,7 @@ def titulo(texto: str, tamanho: int=76, sem_linha: bool=False, tipo_linha: str="
         return f"{linha}\n{texto:^{tamanho}}\n{linha}"
 
 def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 76) -> None:
-    global num_opcao
+    global num_opcao, lista_opcoes
     """
     Exibe quadrados centrados no ecrã, mas com texto interno alinhado à esquerda.
     """
@@ -145,23 +149,22 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
 
     largura_interna = largura_quadrado - 2 # Descontando as duas bordas ║
 
-
     for i in range(0, len(list_objetos), 2):
         par = list_objetos[i:i+2]
         
         item1 = par[0]
 
         
-        celula_telefone1   = f"║ {f'[{item1['telefone']}]':<{largura_interna-1}}║"
-        celula_nome1 = f"║ {f"{item1['nome']} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
-        celula_hora1 = f"║ {item1['horario'][:largura_interna-2]:<{largura_interna-1}}║"
+        celula_telefone1   = f"║ {f'[{item1.telefone}]':<{largura_interna-1}}║"
+        celula_nome1 = f"║ {f"{item1.nome} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
+        celula_hora1 = f"║ {item1.horario_funcionamento[:largura_interna-2]:<{largura_interna-1}}║"
 
         if len(par) == 2:
             num_opcao += 1
             item2 = par[1]
-            celula_nome2 = f"║ {f"{item2['nome']} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
-            celula_hora2 = f"║ {item2['horario'][:largura_interna-2]:<{largura_interna-1}}║"
-            celula_telefone2   = f"║ {f'[{item2['telefone']}]':<{largura_interna-1}}║"
+            celula_nome2 = f"║ {f"{item2.nome} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
+            celula_hora2 = f"║ {item2.horario_funcionamento[:largura_interna-2]:<{largura_interna-1}}║"
+            celula_telefone2   = f"║ {f'[{item2.telefone}]':<{largura_interna-1}}║"
 
             l_topo = f"{topo}{espaco_entre}{topo}"
             l_telefone = f"{celula_telefone1}{espaco_entre}{celula_telefone2}"
@@ -182,5 +185,18 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
         print(f"{l_telefone:^{tamanho}}")
         print(f"{l_base:^{tamanho}}")
         print() 
-
+        lista_opcoes.append(num_opcao)
         num_opcao += 1
+
+
+
+def mostra_info(texto: str, tamanho: int=46):
+    limpar()
+    linha = "━"*tamanho
+    titulo_texto = f"{TITULO:^{tamanho}}"
+
+    texto_mostrar = f"{linha}\n{titulo_texto}\n{linha}\n\n"
+    texto_mostrar += texto + "\n\n"
+    texto_mostrar += linha
+
+    print(texto_mostrar)
