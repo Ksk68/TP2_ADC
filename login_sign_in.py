@@ -1,5 +1,5 @@
 from cliente import Cliente
-from save_load import guardar_dados, carregar_save 
+from save_load import guardar_dados 
 
 def criar_user(lista_clientes: list, nome: str, password: str):
     novo_user = Cliente(nome=nome, password=password)
@@ -15,15 +15,14 @@ def criar_user(lista_clientes: list, nome: str, password: str):
 
     return True
 
-        
-def verificar_user(nome: str, password: str):
-    users = carregar_save(caminho="cliente", obj=Cliente)
 
-    for i in users:
-        if i.nome == nome.strip().title() and i.verificador_password(password):
-            return i
+def verificar_user(nome: str, password: str, lista_clientes: list):
+    nome_procurado = nome.strip().title()
 
-    print("Login falhado")
-    return False
+    for i in lista_clientes:
+        if i.nome == nome_procurado and i.verificador_password(password):
+            return True, i
+
+    return "Login falhado: Nome ou Password incorretos", None
 
 

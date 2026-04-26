@@ -8,7 +8,7 @@ from layout import criar_menu, limpar, mostra_info, perguntar, publicidade, titu
 
 from login_sign_in import criar_user, verificar_user
 
-from save_load import carregar_save
+from save_load import carregar_save, guardar_dados
 
 
 
@@ -58,14 +58,15 @@ def menu_login():
 
         resultados = perguntar(config, tipo=str, titulo="L O G I N")
 
-        resposta = verificar_user(resultados[0], resultados[1])
+        resposta, obj = verificar_user(nome=resultados[0], password=resultados[1], lista_clientes=lista_clientes)
 
-        if resposta is object:
-            cliente_logado = resposta
+        if resposta:
+            cliente_logado = obj
             print("Login bem sucedido!")
             sleep(1.5) 
             menu_app()
             break
+        print(resposta)
         input(ENTER)
 
 def menu_criar_conta():
@@ -128,7 +129,7 @@ def menu_app():
 
         
         mostrar_menu = 1
-        res = perguntar([["  Escolha uma opção", 1, 3]], tipo=int, titulo="D A S H")
+        res = perguntar([["  Escolha uma opção", 0, 3]], tipo=int, titulo="D A S H")
 
         if res[0] == 1:
             menu_cliente()
@@ -167,12 +168,15 @@ def menu_cliente(): # user profile
         if res == 1:
             menu_profile()
         elif res == 2:
-            res = perguntar([["  Novo nome", 3, 20], ["  Nova password", 8, 20]], tipo=str, titulo="E D I T A R  P R O F I L E")
+            res = perguntar([["  Novo nome", 3, 20], ["  Nova password", 8, 20]], tipo=str, titulo="E D I T A R  P R O F I L E", vazio=True)
             if res[0]:
                 cliente_logado.nome = res[0]
             if res[1]:
                 cliente_logado.password = res[1]
+            
+            guardar_dados(caminho="cliente", lista=lista_clientes)
             print("Perfil atualizado com sucesso!")
+            input(ENTER)
         elif res == 3:
             pass # Ver marcações
         elif res == 0:
