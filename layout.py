@@ -154,16 +154,16 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
         item1 = par[0]
 
         
-        celula_telefone1   = f"║ {f'[{item1['telefone']}]':<{largura_interna-1}}║"
-        celula_nome1 = f"║ {f"{item1['nome']} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
-        celula_hora1 = f"║ {item1['horario'][:largura_interna-2]:<{largura_interna-1}}║"
+        celula_telefone1   = f"║ {f'[{item1.telefone}]':<{largura_interna-1}}║"
+        celula_nome1 = f"║ {f"{item1.nome} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
+        celula_hora1 = f"║ {item1.horario_funcionamento[:largura_interna-2]:<{largura_interna-1}}║"
 
         if len(par) == 2:
             num_opcao += 1
             item2 = par[1]
-            celula_nome2 = f"║ {f"{item2['nome']} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
-            celula_hora2 = f"║ {item2['horario'][:largura_interna-2]:<{largura_interna-1}}║"
-            celula_telefone2   = f"║ {f'[{item2['telefone']}]':<{largura_interna-1}}║"
+            celula_nome2 = f"║ {f"{item2.nome} [{num_opcao}]"[:largura_interna-2]:<{largura_interna-1}}║"
+            celula_hora2 = f"║ {item2.horario_funcionamento[:largura_interna-2]:<{largura_interna-1}}║"
+            celula_telefone2   = f"║ {f'[{item2.telefone}]':<{largura_interna-1}}║"
 
             l_topo = f"{topo}{espaco_entre}{topo}"
             l_telefone = f"{celula_telefone1}{espaco_entre}{celula_telefone2}"
