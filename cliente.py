@@ -80,7 +80,3 @@ class Cliente():
 
     def eliminar_marcacao(self, marcacao):
         self.marcacoes.pop(marcacao)
-
-    def editar_marcacao():
-        pass
-    

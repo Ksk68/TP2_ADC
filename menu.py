@@ -1,5 +1,6 @@
 from cliente import Cliente
 from estabelecimento import Estabelecimento
+from marcacao import Marcacao
 
 from time import sleep
 from random import randint
@@ -101,6 +102,7 @@ def menu_app():
 
             print()
             if lista_estabelecimentos:
+                
                 for est in range(0, len(lista_estabelecimentos), 4):
                     publicidade(lista_estabelecimentos[est:est+4]) 
                     i = randint(0, 3)
@@ -206,8 +208,7 @@ def menu_estabelecimento(estabelecimento: object): # para ver o estabelecimento 
 
     res = input("Deseja fazer uma marcação? (s/n): ").strip().lower()
     if res == 's':
-        print("Funcionalidade ainda não implementada.")
-        input(ENTER)
+        criar_marcacao(estabelecimento)
     else:
         print("Voltando ao menu...")
         sleep(1)
@@ -243,7 +244,69 @@ def menu_profile():
     input(ENTER_VOLTAR)
 
 def menu_marcacoes():
-    pass
+    while True:
+        if cliente_logado.marcacoes:
+            texto = ""
+            for marcacao in cliente_logado.marcacoes:
+                texto += f"""
+        NUMERO DA MARCAÇÃO: {cliente_logado.marcacoes.index(marcacao) + 1}
+        ESTABELECIMENTO: {marcacao['estabelecimento_nome']}
+        HORA DA MARCAÇÃO: {marcacao['hora_marcacao']}
+        QUANTIDADE DE PESSOAS: {marcacao['quantidade_pessoas']}
+        ----------------------------------------
+                """
+            texto += "0 - Voltar ao menu"
+            mostra_info(texto)
+            res = input("Escolha uma marcação para editar ou 0 para voltar: ").strip()
+            if res == '0':
+                break
+            elif res.isdigit() and 1 <= int(res) <= len(cliente_logado.marcacoes):
+                marcacao_selecionada = cliente_logado.marcacoes[int(res) - 1]
+                indice_marcacao = int(res) 
+                res = criar_menu(menu_config=[{"sub": "O QUE DESEJA FAZER?", "opcoes": ["Editar marcação", "Eliminar marcação"]}])
+                if res == 1:
+                    menu_editar_marcacao(marcacao_selecionada)
+                elif res == 2:
+                    cliente_logado.eliminar_marcacao(indice_marcacao - 1)
+                    guardar_dados(caminho="cliente", lista=lista_clientes)
+                    print("Marcação eliminada com sucesso!")
+                    input(ENTER)
+            else:
+                print("Opção inválida, voltando ao menu...")
+                sleep(1)
+        else:
+            print("Não tem marcações feitas.") 
+
+def criar_marcacao(estabelecimento: object): 
+    global cliente_logado, lista_clientes
+    while True:
+        try:
+            res = perguntar([["  Hora da marcação (HH:MM)", 5, 5], ["  Quantidade de pessoas", 1, 2]], tipo=str, titulo="C R I A R  M A R C A Ç Ã O")
+            nova_marcacao = Marcacao(estabeleciemento=estabelecimento, hora_marcacao=res[0], quantidade_pessoas=int(res[1]))
+            cliente_logado.adicionar_marcacao(nova_marcacao.para_dicionario())
+            guardar_dados(caminho="cliente", lista=lista_clientes)
+            print("Marcação criada com sucesso!")
+            input(ENTER)
+            break
+        except ValueError as e:
+            print(f"Erro: {e}")
+            input(ENTER)
+
+def menu_editar_marcacao(marcacao: dict):
+    while True:
+        try:
+            res = perguntar([["  Nova hora da marcação (HH:MM)", 5, 5], ["  Nova quantidade de pessoas", 1, 2]], tipo=str, titulo="E D I T A R  M A R C A Ç Ã O", vazio=True)
+            if res[0]:
+                marcacao['hora_marcacao'] = res[0]
+            if res[1]:
+                marcacao['quantidade_pessoas'] = int(res[1])
+            guardar_dados(caminho="cliente", lista=lista_clientes)
+            print("Marcação editada com sucesso!")
+            input(ENTER)
+            break
+        except ValueError as e:
+            print(f"Erro: {e}")
+            input(ENTER)
 
 if __name__ == "__main__":
     menu()
