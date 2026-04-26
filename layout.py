@@ -58,7 +58,7 @@ def limpar() -> None:
     """
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None, tamanho: int = 76, titulo: str = "P E R G U N T A S"):
+def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None, tamanho: int = 76, titulo: str = "P E R G U N T A S", vazio: bool = False) -> list:
     """
     perguntas_config: Lista de listas no formato [["Pergunta", min, max], ...]
     tipo: Tipo de variável (str, int, float).
@@ -91,6 +91,9 @@ def perguntar(perguntas_config: list, tipo: object = str, exclusoes: list = None
                 res = input(f"{texto_pergunta}: ").strip()
 
                 if not res:
+                    if vazio:
+                        respostas_finais.append("")
+                        break
                     print("Erro: A entrada não pode estar vazia.")
                     continue
 
@@ -145,7 +148,6 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
 
     largura_interna = largura_quadrado - 2 # Descontando as duas bordas ║
 
-
     for i in range(0, len(list_objetos), 2):
         par = list_objetos[i:i+2]
         
@@ -184,3 +186,15 @@ def publicidade(list_objetos: list, largura_quadrado: int = 30, tamanho: int = 7
         print() 
 
         num_opcao += 1
+
+
+def mostra_info(texto: str, tamanho: int=46):
+    limpar()
+    linha = "━"*tamanho
+    titulo_texto = f"{TITULO:^{tamanho}}"
+
+    texto_mostrar = f"{linha}\n{titulo_texto}\n{linha}\n\n"
+    texto_mostrar += texto + "\n\n"
+    texto_mostrar += linha
+
+    print(texto_mostrar)

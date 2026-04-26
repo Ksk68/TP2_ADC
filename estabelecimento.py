@@ -81,4 +81,4 @@ class Estabelecimento():
                 f"não pode ser posterior ou igual ao fecho ({fecho_formatado})!"
             )
 
-        self._horario_funcionamento = valor
+        self.__horario_funcionamento = valor

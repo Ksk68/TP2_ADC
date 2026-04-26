@@ -1,15 +1,25 @@
-from time import sleep
 from cliente import Cliente
-from layout import criar_menu, limpar, perguntar, publicidade, titulo
-from login_sign_in import criar_user, verificar_user
-from save_load import carregar_save
+from estabelecimento import Estabelecimento
+
+from time import sleep
 from random import randint
 
+from layout import criar_menu, limpar, mostra_info, perguntar, publicidade, titulo
+
+from login_sign_in import criar_user, verificar_user
+
+from save_load import carregar_save
+
+
+
 ENTER = "   \nPressione ENTER para continuar..."
+ENTER_VOLTAR = "   \nPressione ENTER para voltar ao menu..."
 
 cliente_logado = None
 lista_clientes = carregar_save(caminho="cliente", obj=Cliente)
-lista_estabelecimentos = carregar_save(caminho="estabelecimento", obj=Cliente)
+lista_estabelecimentos = carregar_save(caminho="estabelecimento", obj=Estabelecimento)
+
+mostrar_menu = 0
 
 def menu():
     while True:
@@ -54,6 +64,7 @@ def menu_login():
             cliente_logado = resposta
             print("Login bem sucedido!")
             sleep(1.5) 
+            menu_app()
             break
         input(ENTER)
 
@@ -72,51 +83,64 @@ def menu_criar_conta():
         if resultado:
             print(" Conta criada com sucesso!")
             sleep(1.5)  
+            menu_app()
             break
         input(ENTER)
 
 def menu_app():
-    limpar()
-    print(titulo("D A S H"))
-    print(titulo("1 - Cliente | 2 - Estabelecimento | 0 - Sair", sem_linha=True))
+    global mostrar_menu
+    while True:
+        if mostrar_menu == 0:
+            limpar()
+            print(titulo("D A S H"))
+            print(titulo("1 - Cliente | 2 - Estabelecimento | 3 - Adicionar Estabelecimento | 0 - Sair", sem_linha=True))
 
-    print()
-    estabelecimentos = [ # para testes porque ainda nao se tem a class estabelecimento
-        {"nome": "Taberna do Zé", "horario": "12:00 - 23:00", "telefone": "123-456-789"},
-        {"nome": "Farmácia Central", "horario": "08:00 - 20:00", "telefone": "987-654-321"},
-        {"nome": "Gym Fit", "horario": "07:00 - 22:00", "telefone": "555-555-555"},
-        {"nome": "Gym Fit", "horario": "07:00 - 22:00", "telefone": "555-555-555"},
-        {"nome": "Taberna do Zé", "horario": "12:00 - 23:00", "telefone": "123-456-789"},
-        {"nome": "Farmácia Central", "horario": "08:00 - 20:00", "telefone": "987-654-321"},
-        {"nome": "Gym Fit", "horario": "07:00 - 22:00", "telefone": "555-555-555"},
-        {"nome": "Gym Fit", "horario": "07:00 - 22:00", "telefone": "555-555-555"},
-        {"nome": "Taberna do Zé", "horario": "12:00 - 23:00", "telefone": "123-456-789"},
-        {"nome": "Farmácia Central", "horario": "08:00 - 20:00", "telefone": "987-654-321"},
-        {"nome": "Gym Fit", "horario": "07:00 - 22:00", "telefone": "555-555-555"},
-    ]
-    for est in range(1, len(estabelecimentos), 4):
-        publicidade(estabelecimentos[est:est+4]) 
-        i = randint(0, 3)
+            print()
+            if lista_estabelecimentos:
+                for est in range(1, len(lista_estabelecimentos), 4):
+                    publicidade(lista_estabelecimentos[est:est+4]) 
+                    i = randint(0, 3)
 
-        if i == 0:   
-            a = titulo("💸 10% DE DESCONTO PARA NOVOS CLIENTES", sem_linha=True)
-            b =titulo("USE O CÓDIGO: DASH2026", sem_linha=True)
-            print(titulo( a + "\n" +b, tipo_linha="-"))
+                    if i == 0:   
+                        a = titulo("💸 10% DE DESCONTO PARA NOVOS CLIENTES", sem_linha=True)
+                        b =titulo("USE O CÓDIGO: DASH2026", sem_linha=True)
+                        print(titulo( a + "\n" +b, tipo_linha="-"))
+                        
+                    elif i == 1:
+                        a = titulo("⭐ TORNA-TE MEMBRO PREMIUM ⭐", sem_linha=True)
+                        b =titulo("ACESSOS EXCLUSIVOS E TAXA DE ENTREGA GRÁTIS", sem_linha=True)
+                        print(titulo( a + "\n" +b, tipo_linha="-"))
+                    
+                    elif i == 2:
+                        a = titulo("📢 QUER VER O SEU NEGÓCIO AQUI?", sem_linha=True)
+                        b =titulo("CONTACTE-NOS EM DASH.SUPPORT@EMAIL.COM", sem_linha=True)
+                        print(titulo( a + "\n" +b, tipo_linha="-"))
+                    
+                    elif i == 3:
+                        a = titulo("🍕 NOITE DE PIZZA? 🍕", sem_linha=True)
+                        b =titulo("PEÇA JÁ E GANHE UMA BEBIDA DE OFERTA", sem_linha=True)
+                        print(titulo( a + "\n" +b, tipo_linha="-"))
             
-        elif i == 1:
-            a = titulo("⭐ TORNA-TE MEMBRO PREMIUM ⭐", sem_linha=True)
-            b =titulo("ACESSOS EXCLUSIVOS E TAXA DE ENTREGA GRÁTIS", sem_linha=True)
-            print(titulo( a + "\n" +b, tipo_linha="-"))
+            else:
+                print(titulo("Nenhum estabelecimento disponível no momento.", sem_linha=True))
+                print(titulo("Volte mais tarde para descobrir as nossas ofertas!", sem_linha=True))
+                print(titulo("Ou adicione o seu estabelecimento para aparecer aqui!", sem_linha=True))
+
         
-        elif i == 2:
-            a = titulo("📢 QUER VER O SEU NEGÓCIO AQUI?", sem_linha=True)
-            b =titulo("CONTACTE-NOS EM DASH.SUPPORT@EMAIL.COM", sem_linha=True)
-            print(titulo( a + "\n" +b, tipo_linha="-"))
-        
-        elif i == 3:
-            a = titulo("🍕 NOITE DE PIZZA? 🍕", sem_linha=True)
-            b =titulo("PEÇA JÁ E GANHE UMA BEBIDA DE OFERTA", sem_linha=True)
-            print(titulo( a + "\n" +b, tipo_linha="-"))
+        mostrar_menu = 1
+        res = perguntar([["  Escolha uma opção", 1, 3]], tipo=int, titulo="D A S H")
+
+        if res[0] == 1:
+            menu_cliente()
+        elif res[0] == 2:
+            menu_estabelecimento()
+        elif res[0] == 3:
+            menu_adicionar_estabelecimento()
+        elif res[0] == 0:
+            print("Saindo...")
+            break
+        else:
+            print("Opção inválida, tente novamente.")
 
 def menu_cliente(): # user profile
     pass
@@ -129,4 +153,4 @@ def menu_adicionar_estabelecimento(): # para criar um estabelimento
 
 
 if __name__ == "__main__":
-    menu_app()
+    menu()
