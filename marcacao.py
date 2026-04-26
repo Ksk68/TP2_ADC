@@ -10,3 +10,12 @@ class Marcacao():
         # da class
         self.hora_marcacao = hora_marcacao
         self.quantidade_pessoas = quantidade_pessoas
+
+    def para_dicionario(self):
+        return {
+            "estabelecimento_nome": self.estabelecimento_nome,
+            "hora_marcacao": self.hora_marcacao,
+            "quantidade_pessoas": self.quantidade_pessoas
+        }
+
+      
